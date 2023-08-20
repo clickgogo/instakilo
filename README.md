@@ -1,73 +1,110 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+<!DOCTYPE html>
+<html>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<head>
+  <title>Instakilo - Nest.js Microservices</title>
+</head>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<body>
 
-## Description
+  <h1>Instakilo - Nest.js Microservices</h1>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+  <p>Instakilo is a collection of Nest.js microservices for [describe your application's purpose or focus briefly].</p>
 
-## Installation
+  <h2>🚀 Getting Started</h2>
 
-```bash
-$ npm install
-```
+  <h3>🔧 Prerequisites</h3>
+  <p>Node.js (version x.x.x)<br>npm (version x.x.x)</p>
 
-## Running the app
+  <h3>⚙️ Installation</h3>
+  <ol>
+    <li>Clone the repository:</li>
+  </ol>
 
-```bash
-# development
-$ npm run start
+  <pre><code>git clone https://github.com/yourusername/instakilo.git</code></pre>
 
-# watch mode
-$ npm run start:dev
+  <ol start="2">
+    <li>Navigate to the project directory:</li>
+  </ol>
 
-# production mode
-$ npm run start:prod
-```
+  <pre><code>cd instakilo</code></pre>
 
-## Test
+  <ol start="3">
+    <li>Install dependencies for each microservice:</li>
+  </ol>
 
-```bash
-# unit tests
-$ npm run test
+  <pre><code>cd auth-microservice
+npm install
 
-# e2e tests
-$ npm run test:e2e
+cd ../user-microservice
+npm install
 
-# test coverage
-$ npm run test:cov
-```
+# Repeat for other microservices
+  </code></pre>
 
-## Support
+  <h3>🚀 Usage</h3>
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+  <ol>
+    <li>Start each microservice:</li>
+  </ol>
 
-## Stay in touch
+  <pre><code>cd auth-microservice
+npm run start:dev
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+cd ../user-microservice
+npm run start:dev
 
-## License
+# Repeat for other microservices
+  </code></pre>
 
-Nest is [MIT licensed](LICENSE).
+  <p>Open your browser and visit relevant endpoints or use the API Gateway to interact with the microservices.</p>
+
+  <h2>🔌 Microservices</h2>
+
+  <p>Your Instakilo application consists of the following microservices:</p>
+
+  <ul>
+    <li>🔐 Auth Microservice: TODO - Describe the purpose and functionality of the Auth Microservice.</li>
+    <li>👤 User Microservice: TODO - Describe the purpose and functionality of the User Microservice.</li>
+    <li>📝 Post Microservice: TODO - Describe the purpose and functionality of the Post Microservice.</li>
+    <li>💬 Comment Microservice: TODO - Describe the purpose and functionality of the Comment Microservice.</li>
+    <li>❤️ Likes Microservice: TODO - Describe the purpose and functionality of the Likes Microservice.</li>
+    <li>📰 Feed Microservice: TODO - Describe the purpose and functionality of the Feed Microservice.</li>
+    <li>🌐 API Gateway Microservice: TODO - Describe the purpose and functionality of the API Gateway Microservice.</li>
+  </ul>
+
+  <h2>💼 User Prisma Module</h2>
+
+  <ul>
+    <li>💼 User Prisma Module: TODO - Describe the purpose and functionality of the User Prisma Module.</li>
+  </ul>
+
+  <h2>🧪 Testing</h2>
+
+  <p>To run tests for the Instakilo microservices, use the following command within each microservice's directory:</p>
+
+  <pre><code>npm test</code></pre>
+
+  <h2>👥 Contributing</h2>
+
+  <p>We welcome contributions from the community! If you'd like to contribute, please follow these steps:</p>
+
+  <ol>
+    <li>🍴 Fork the repository.</li>
+    <li>🌿 Create a new branch for your feature or bug fix.</li>
+    <li>🔧 Make your changes and commit them.</li>
+    <li>🚀 Push your changes to your fork.</li>
+    <li>🔍 Open a pull request with a clear description of your changes.</li>
+  </ol>
+
+  <h2>📄 License</h2>
+
+  <p>This project is licensed under the <a href="LICENSE">MIT License</a>.</p>
+
+  <h2>📬 Contact</h2>
+
+  <p>For questions or inquiries, you can reach us at <a href="mailto:your-email@example.com">your-email@example.com</a>.</p>
+
+</body>
+
+</html>
