@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <title>Instakilo - Nest.js Microservices</title>
-</head>
-
 <body>
 
   <h1>Instakilo - Nest.js Microservices</h1>
