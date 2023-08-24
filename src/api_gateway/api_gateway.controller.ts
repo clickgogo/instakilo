@@ -28,4 +28,9 @@ export class GatewayController {
   follow(@Req() req: any, @Body() dto: FollowUserDto) {
     return this.userService.follow(dto, req.user);
   }
+
+  @Post('user/unfollow')
+  unfollow(@Req() req: any, @Body() dto: FollowUserDto) {
+    return this.userService.unfollow(dto, req.user);
+  }
 }
