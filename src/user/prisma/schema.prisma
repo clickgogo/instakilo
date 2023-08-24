@@ -7,37 +7,38 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("USER_DATABASE_URL")
 }
 
 model User {
-  id String @id @default(uuid())
-  username  String     @unique
-  email String @unique
-  hash String
-  followers Follower[]
-  follows   Follow[]
-  profile Profile?
-  createdAt   DateTime @default(now()) @map("created_at")
+  id          String      @id             @default(uuid())
+  username    String      @unique
+  email       String      @unique
+  hash        String
+  followers   Follower[]
+  following     Following[]
+  profile     Profile?
+  createdAt   DateTime    @default(now()) @map("created_at")
 }
 
 model Profile {
-  id String @id @default(uuid())
-  photo_url String?
-  bio String?
-  user User @relation(fields: [userId], references: [id])
-  userId String @unique
+  id          String      @id             @default(uuid())
+  username    String      @unique
+  photo_url   String?
+  bio         String?
+  followerCount Int?
+  followsCount Int?
+  user        User      @relation(fields: [username], references: [username])
 }
 model Follower {
-  id Int   @id @default(autoincrement())
-  followerId Int
-  user User @relation(fields: [userId], references: [id])
-  userId String @unique
+  id            Int    @id @default(autoincrement())
+  followerUser  User   @relation(fields: [followerUsername], references: [username])
+  followerUsername   String
 }
 
-model Follow {
-  id Int @id @default(autoincrement())
-  followedId Int
-  user User @relation(fields: [userId], references: [id])
-  userId String @unique
+
+model Following {
+  id            Int    @id @default(autoincrement())
+  followingUser User   @relation(fields: [followingUsername], references: [username])
+  followingUsername  String
 }

@@ -1,10 +1,17 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto, RegisterDto } from 'src/auth/dto';
+import { FollowUserDto } from 'src/user/dto';
+import { UserService } from 'src/user/user.service';
 
 @Controller()
 export class GatewayController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+  ) {}
 
   @Post('signup')
   async signup(@Body() dto: RegisterDto) {
@@ -16,5 +23,9 @@ export class GatewayController {
     return this.authService.login(dto);
   }
 
-  
+  @UseGuards(AuthGuard('jwt'))
+  @Post('user/follow')
+  follow(@Req() req: any, @Body() dto: FollowUserDto) {
+    return this.userService.follow(dto, req.user);
+  }
 }

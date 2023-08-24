@@ -53,14 +53,15 @@ export class AuthService {
 
     return {
       message: 'User access successful',
-      access_token: await this.signToken(user.id, user.email),
+      access_token: await this.signToken(user.id, user.email, user.username),
     };
   }
 
-  async signToken(userId: string, email: string): Promise<string> {
+  async signToken(userId: string, email: string, username: string): Promise<string> {
     const payload = {
       sub: userId,
       email,
+      username
     };
 
     return this.jwt.signAsync(payload, {
@@ -68,7 +69,4 @@ export class AuthService {
       secret: this.config.get('JWT_SECRET'),
     });
   }
-
-  follow() {}
-  unfollow() {}
 }
