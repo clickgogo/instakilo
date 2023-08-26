@@ -20,3 +20,8 @@ interface IFollowing {
     username: string
     following: string;
 }
+
+export enum followOrUnfollow {
+    follow = "follow",
+    unfollow = "unfollow"
+  }
