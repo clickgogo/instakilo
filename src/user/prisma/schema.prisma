@@ -15,8 +15,7 @@ model User {
   username    String      @unique
   email       String      @unique
   hash        String
-  followers   Follower[]
-  following     Following[]
+  following   Following[]
   profile     Profile?
   createdAt   DateTime    @default(now()) @map("created_at")
 }
@@ -30,15 +29,10 @@ model Profile {
   followsCount Int?
   user        User      @relation(fields: [username], references: [username])
 }
-model Follower {
-  id            Int    @id @default(autoincrement())
-  followerUser  User   @relation(fields: [followerUsername], references: [username])
-  followerUsername   String
-}
-
 
 model Following {
   id            Int    @id @default(autoincrement())
-  followingUser User   @relation(fields: [followingUsername], references: [username])
-  followingUsername  String
+  user User     @relation(fields: [username], references: [username])
+  username      String
+  following     String
 }

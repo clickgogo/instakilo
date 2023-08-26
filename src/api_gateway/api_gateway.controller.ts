@@ -26,11 +26,13 @@ export class GatewayController {
   @UseGuards(AuthGuard('jwt'))
   @Post('user/follow')
   follow(@Req() req: any, @Body() dto: FollowUserDto) {
-    return this.userService.follow(dto, req.user);
+    return this.userService.follow( req.user, dto);
   }
-
+/*
+  @UseGuards(AuthGuard('jwt'))
   @Post('user/unfollow')
   unfollow(@Req() req: any, @Body() dto: FollowUserDto) {
     return this.userService.unfollow(dto, req.user);
   }
+*/
 }

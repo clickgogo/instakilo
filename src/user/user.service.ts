@@ -3,30 +3,37 @@ import {
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { FollowUserDto, FollowerUserDto } from './dto';
+import { FollowUserDto } from './dto';
 import { UserPrismaService } from 'src/user-prisma/user-prisma.service';
+import { IUser, IUserAndFollowing } from './types/index';
 
 @Injectable()
 export class UserService {
   constructor(private userPrisma: UserPrismaService) {}
 
-  async checkIfUserAlreadyFollows(follower: FollowerUserDto) {
-    const followerUser = await this.userPrisma.user.findUnique({
-      where: {
-        username: follower.username,
-      },
-      include: {
-        following: true,
-      },
+  async checkIfUserAlreadyFollows(follower: FollowUserDto) {
+    const userFollowing: IUserAndFollowing =
+      await this.userPrisma.user.findUnique({
+        where: {
+          username: follower.username,
+        },
+        include: {
+          following: true,
+        },
+      });
+
+    userFollowing.following.map((eachFollow) => {
+      if (eachFollow.username == follower.username)
+        throw new BadRequestException('Already follows the user');
     });
 
-    return followerUser;
+    return userFollowing;
   }
 
-  async checkIfUserToFollowOrUnfollowExists(userFollowed: FollowUserDto) {
+  async checkIfUserToFollowOrUnfollowExists(userToFollowReq: FollowUserDto) {
     const userToFollow = await this.userPrisma.user.findUnique({
       where: {
-        username: userFollowed.username,
+        username: userToFollowReq.username,
       },
     });
 
@@ -35,38 +42,26 @@ export class UserService {
     return userToFollow;
   }
 
-  async addFollowingAndFollower(followerUser: any, userToFollow: any) {
-    const followerResponse = await this.userPrisma.follower.create({
-      data: {
-        followerUser: {
-          connect: {
-            username: userToFollow.username,
-          },
-        },
-      },
-    });
-
+  async addFollowingAndFollower(  userFollowing: IUserAndFollowing, userToFollow: IUser) {
     const followingResponse = await this.userPrisma.following.create({
       data: {
-        followingUser: {
-          connect: {
-            username: followerUser.username,
-          },
+        user: {
+            connect: {
+              username: userFollowing.username,
+            }
         },
+        following: userToFollow.username
       },
     });
 
-    return { followerResponse, followingResponse };
+    return { followingResponse };
   }
 
   async removeFollowingAndFollower(followerUser: any, followingUser: any) {
-    const followerResponse = await this.userPrisma.follower.delete({
+    const followerResponse = await this.userPrisma.following.delete({
       where: {
-        followerUser: {
-          followerUser,
-        },
-        followerUsername: followerUser.username,
-      } as any,
+        id: 1,
+      },
     });
     console.log(followerResponse);
 
@@ -82,46 +77,47 @@ export class UserService {
     return { followerResponse, followingResponse };
   }
 
-  async follow(userFollowed: FollowUserDto, follower: FollowerUserDto) {
+  async follow(follower: FollowUserDto, userToFollowReq: FollowUserDto) {
     try {
-      //check if user already follows
-      const followerUser = await this.checkIfUserAlreadyFollows(follower);
-
-      followerUser.following.map(eachFollow => {
-        if(eachFollow.followingUsername == follower.username) {
-          throw new BadRequestException('Already follows the user');
-        }
-      })
+      //check if user already follows and returns user info
+      const userFollowing = await this.checkIfUserAlreadyFollows(follower);
 
       //check if user exists
       const userToFollow =
-        await this.checkIfUserToFollowOrUnfollowExists(userFollowed);
+        await this.checkIfUserToFollowOrUnfollowExists(userToFollowReq);
 
-      const { followerResponse, followingResponse } =
-        await this.addFollowingAndFollower(followerUser, userToFollow);
+      const { followingResponse } =
+        await this.addFollowingAndFollower(userFollowing, userToFollow);
 
       return {
-        followerResponse,
-        followingResponse,
+        followingResponse
       };
     } catch (error) {
       return error;
     }
   }
-
+/*
   async unfollow(userFollowed: FollowUserDto, follower: FollowerUserDto) {
     try {
-      const followerUser = await this.checkIfUserAlreadyFollows(follower);
+      let isUserFollowed = false;
+      const followedUser = await this.checkIfUserAlreadyFollows(userFollowed);
 
-      followerUser.following.map(eachFollow => {
-        if(eachFollow.followingUsername === userFollowed.username) throw new BadRequestException('Already follows the user');
-      })
+      for (let eachFollower of followedUser.followers) {
+        if (eachFollower.followerUsername !== follower.username) {
+          isUserFollowed = true;
+          break;
+        }
+      }
+
+      if (!isUserFollowed)
+        throw new BadRequestException('Does not follow the user already');
 
       const userToFollow =
         await this.checkIfUserToFollowOrUnfollowExists(userFollowed);
 
+      console.log(followedUser);
       const { followerResponse, followingResponse } =
-        await this.removeFollowingAndFollower(followerUser, userToFollow);
+        await this.removeFollowingAndFollower(followedUser, userToFollow);
 
       console.log(followerResponse, followingResponse);
 
@@ -132,5 +128,5 @@ export class UserService {
     } catch (error) {
       return { error };
     }
-  }
+  }*/
 }
