@@ -57,11 +57,15 @@ export class AuthService {
     };
   }
 
-  async signToken(userId: string, email: string, username: string): Promise<string> {
+  async signToken(
+    uuid: string,
+    email: string,
+    username: string,
+  ): Promise<string> {
     const payload = {
-      sub: userId,
+      uuid,
       email,
-      username
+      username,
     };
 
     return this.jwt.signAsync(payload, {

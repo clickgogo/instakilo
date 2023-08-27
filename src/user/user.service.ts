@@ -1,9 +1,9 @@
 import {
   BadRequestException,
   ForbiddenException,
-  Injectable,
+  Injectable, NotFoundException
 } from '@nestjs/common';
-import { FollowUserDto } from './dto';
+import { FollowUserDto, LoggedUserDto, ProfileDto } from './dto';
 import { UserPrismaService } from 'src/user-prisma/user-prisma.service';
 import { IUser, IUserAndFollowing, followOrUnfollow } from './types/index';
 
@@ -110,7 +110,7 @@ export class UserService {
 
   async unfollow(follower: FollowUserDto, userToFollowReq: FollowUserDto) {
     try {
-      console.log(follower.username, userToFollowReq.username)
+      console.log(follower.username, userToFollowReq.username);
       const userFollowing = await this.checkIfUserAlreadyFollows(
         follower,
         followOrUnfollow.unfollow,
@@ -129,5 +129,40 @@ export class UserService {
     } catch (error) {
       return { error };
     }
+  }
+
+  async updateProfile(user: LoggedUserDto, dto: ProfileDto) {
+    return await this.userPrisma.profile.upsert({
+      where: {
+        username: user.username
+      },
+      update: {
+        bio: dto.bio,
+        photo_url: dto.photo_url
+      },
+      create: {
+        user: {
+          connect: {
+            username: user.username
+          }
+        },
+        photo_url: dto.photo_url,
+        bio: dto.bio
+      }
+    })
+  }
+
+  async getProfile(username: string){
+    if(!username) throw new BadRequestException("No Username provided in request")
+
+    const profile = await this.userPrisma.profile.findUnique({
+      where: {
+        username
+      }
+    })
+
+    if(!profile) throw new NotFoundException("No user found")
+
+    return profile 
   }
 }

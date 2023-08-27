@@ -31,8 +31,8 @@ model Profile {
 }
 
 model Following {
-  id            Int    @id @default(autoincrement())
-  user User     @relation(fields: [username], references: [username])
+  id            Int       @id @default(autoincrement())
+  user          User      @relation(fields: [username], references: [username])
   username      String
   following     String
 }

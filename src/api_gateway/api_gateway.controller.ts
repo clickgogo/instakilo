@@ -1,9 +1,8 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto, RegisterDto } from 'src/auth/dto';
-import { FollowUserDto } from 'src/user/dto';
+import { FollowUserDto, ProfileDto } from 'src/user/dto';
 import { UserService } from 'src/user/user.service';
 
 @Controller()
@@ -33,5 +32,16 @@ export class GatewayController {
   @Post('user/unfollow')
   unfollow(@Req() req: any, @Body() dto: FollowUserDto) {
     return this.userService.unfollow(req.user, dto);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('user/profile')
+  profile(@Req() req: any, @Body() dto: ProfileDto) {
+    return this.userService.updateProfile(req.user, dto);
+  }
+
+  @Get('user/profile/:username')
+  getProfile(@Req() req: any, @Param('username') username: string) {
+    return this.userService.getProfile(username);
   }
 }
