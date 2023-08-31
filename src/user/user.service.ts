@@ -1,7 +1,8 @@
 import {
   BadRequestException,
   ForbiddenException,
-  Injectable, NotFoundException
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { FollowUserDto, LoggedUserDto, ProfileDto } from './dto';
 import { UserPrismaService } from 'src/user-prisma/user-prisma.service';
@@ -134,35 +135,36 @@ export class UserService {
   async updateProfile(user: LoggedUserDto, dto: ProfileDto) {
     return await this.userPrisma.profile.upsert({
       where: {
-        username: user.username
+        username: user.username,
       },
       update: {
         bio: dto.bio,
-        photo_url: dto.photo_url
+        photo_url: dto.photo_url,
       },
       create: {
         user: {
           connect: {
-            username: user.username
-          }
+            username: user.username,
+          },
         },
         photo_url: dto.photo_url,
-        bio: dto.bio
-      }
-    })
+        bio: dto.bio,
+      },
+    });
   }
 
-  async getProfile(username: string){
-    if(!username) throw new BadRequestException("No Username provided in request")
-
+  async getProfile(username: string) {
+    if (!username) {
+      throw new BadRequestException('No Username provided in request');
+    }
     const profile = await this.userPrisma.profile.findUnique({
       where: {
-        username
-      }
-    })
+        username,
+      },
+    });
 
-    if(!profile) throw new NotFoundException("No user found")
+    if (!profile) throw new NotFoundException('No user found');
 
-    return profile 
+    return profile;
   }
 }

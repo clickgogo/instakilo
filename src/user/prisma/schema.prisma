@@ -18,6 +18,7 @@ model User {
   following   Following[]
   profile     Profile?
   createdAt   DateTime    @default(now()) @map("created_at")
+  hashedRefreshToken String?
 }
 
 model Profile {
