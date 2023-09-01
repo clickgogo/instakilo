@@ -145,8 +145,41 @@ export class AuthService {
         },
       });
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      throw new InternalServerErrorException();
     }
+  }
+
+  async refreshToken(dto: any) {
+    console.log(dto)
+    try {
+      const user = await this.userPrisma.user.findUnique({
+        where: {
+          id: dto.uuid
+        }
+      })
+
+      if(!user) throw new ForbiddenException("No User Found")
+
+      const refresh_token_matches = this.verifyHash(user.hashedRefreshToken, dto.refreshToken)
+
+      if(!refresh_token_matches) throw new ForbiddenException("Access denied")
+
+      const { accessToken, refreshToken } = await this.getTokens(
+        user.id,
+        user.email,
+        user.username,
+      );
+
+      await this.updateRefreshToken(user.id, refreshToken);
+
+      return {
+        message: 'Refresh Tokens successfully',
+        accessToken,
+        refreshToken,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException();
+    } 
   }
 
   hashData(data: string): Promise<string> {

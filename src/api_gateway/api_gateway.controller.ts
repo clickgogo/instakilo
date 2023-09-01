@@ -7,12 +7,12 @@ import {
   Param,
   Post,
   Put,
-  Req,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from 'src/auth/auth.service';
-import { LoginDto, LogoutDto, RegisterDto } from 'src/auth/dto';
+import { LoginDto, RegisterDto } from 'src/auth/dto';
+import { User } from 'src/common/decorators/user.decorator';
+import { AtGuard, RtGuard } from 'src/common/guards';
 import { FollowUserDto, ProfileDto } from 'src/user/dto';
 import { UserService } from 'src/user/user.service';
 @Controller()
@@ -34,35 +34,41 @@ export class GatewayController {
     return this.authService.login(dto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AtGuard)
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  async logout(@Req() req: any,) {
-    return this.authService.logout(req.user)
+  async logout(@User() user: any) {
+    return this.authService.logout(user);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(RtGuard)
+  @Post('/refresh-token')
+  refresh(@User() user: any) {
+    return this.authService.refreshToken(user);
+  }
+
+  @UseGuards(AtGuard)
   @Post('user/follow')
   @HttpCode(HttpStatus.CREATED)
-  follow(@Req() req: any, @Body() dto: FollowUserDto) {
-    return this.userService.follow(req.user, dto);
+  follow(@User() user: any, @Body() dto: FollowUserDto) {
+    return this.userService.follow(user, dto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AtGuard)
   @Post('user/unfollow')
   @HttpCode(HttpStatus.OK)
-  unfollow(@Req() req: any, @Body() dto: FollowUserDto) {
-    return this.userService.unfollow(req.user, dto);
+  unfollow(@User() user: any, @Body() dto: FollowUserDto) {
+    return this.userService.unfollow(user, dto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AtGuard)
   @Put('user/profile')
-  updateProfile(@Req() req: any, @Body() dto: ProfileDto) {
-    return this.userService.updateProfile(req.user, dto);
+  updateProfile(@User() user: any, @Body() dto: ProfileDto) {
+    return this.userService.updateProfile(user, dto);
   }
 
   @Get('user/profile/:username')
-  getProfile(@Req() req: any, @Param('username') username: string) {
+  getProfile(@User() user: any, @Param('username') username: string) {
     return this.userService.getProfile(username);
   }
 }
