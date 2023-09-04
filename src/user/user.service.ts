@@ -96,6 +96,9 @@ export class UserService {
       //check if user exists
       const userToFollow = await this.checkIfTargetUserExists(userToFollowReq);
 
+      //check if user requested to follow himself
+      if(userFollowing.username === userToFollow.username) throw new BadRequestException("User can't follow self account")
+
       const { followingResponse } = await this.addFollowingAndFollower(
         userFollowing,
         userToFollow,
