@@ -80,7 +80,7 @@ export class AuthService {
 
   async logout(dto: LogoutDto) {
     try {
-      return await this.userPrisma.user.update({
+      await this.userPrisma.user.update({
         where: {
           username: dto.username,
           hashedRefreshToken: {
@@ -91,6 +91,10 @@ export class AuthService {
           hashedRefreshToken: null,
         },
       });
+
+      return {
+        message: 'Successfully logged out',
+      };
     } catch (error) {
       if (error.code == 'P2025')
         throw new BadRequestException('User already Logged out');
@@ -150,19 +154,22 @@ export class AuthService {
   }
 
   async refreshToken(dto: any) {
-    console.log(dto)
+    console.log(dto);
     try {
       const user = await this.userPrisma.user.findUnique({
         where: {
-          id: dto.uuid
-        }
-      })
+          id: dto.uuid,
+        },
+      });
 
-      if(!user) throw new ForbiddenException("No User Found")
+      if (!user) throw new ForbiddenException('No User Found');
 
-      const refresh_token_matches = this.verifyHash(user.hashedRefreshToken, dto.refreshToken)
+      const refresh_token_matches = this.verifyHash(
+        user.hashedRefreshToken,
+        dto.refreshToken,
+      );
 
-      if(!refresh_token_matches) throw new ForbiddenException("Access denied")
+      if (!refresh_token_matches) throw new ForbiddenException('Access denied');
 
       const { accessToken, refreshToken } = await this.getTokens(
         user.id,
@@ -179,7 +186,7 @@ export class AuthService {
       };
     } catch (error) {
       throw new InternalServerErrorException();
-    } 
+    }
   }
 
   hashData(data: string): Promise<string> {

@@ -9,12 +9,9 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { AuthService } from 'src/auth/auth.service';
-import { LoginDto, RegisterDto } from 'src/auth/dto';
-import { User } from 'src/common/decorators/user.decorator';
-import { AtGuard, RtGuard } from 'src/common/guards';
-import { FollowUserDto, ProfileDto } from 'src/user/dto';
-import { UserService } from 'src/user/user.service';
+import { AuthService, LoginDto, RegisterDto } from 'src/auth/index';
+import { User, AtGuard, RtGuard } from 'src/common/index';
+import { FollowUserDto, ProfileDto, UserService } from 'src/user/index';
 @Controller()
 export class GatewayController {
   constructor(
