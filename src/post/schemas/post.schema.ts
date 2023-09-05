@@ -1,23 +1,25 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsUUID } from 'class-validator';
 import { Document } from 'mongoose';
+import { v4 as UUID } from 'uuid';
 
 export type PostDocument = Post & Document;
-const now: string = new Date().toISOString().split('T')[0];
 @Schema()
 export class Post {
-  @Prop()
+  @Prop({ default: UUID })
   postId: string;
 
-  @Prop()
+  @Prop({ required: true })
+  @IsUUID()
   ownerId: string;
-  
-  @Prop()
+
+  @Prop({ required: true })
   ownerUserName: string;
 
-  @Prop()
-  imageUri: string;
+  @Prop({ required: true })
+  imageUri: string[];
 
-  @Prop()
+  @Prop({ default: ""})
   description: string;
 
   @Prop({
@@ -26,9 +28,9 @@ export class Post {
   likes: number;
 
   @Prop({
-    default: now,
+    default: Date.now,
   })
-  createdAt: string;
+  createdAt: Date;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

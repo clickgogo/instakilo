@@ -1,0 +1,29 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type PostDto {
+  postId: String!
+  ownerId: String!
+  ownerUserName: String!
+  imageListUri: [String!]!
+  description: String!
+  likes: Float!
+  createdAt: String!
+}
+
+type Query {
+  hello: String!
+  getAllPosts: [PostDto!]!
+}
+
+type Mutation {
+  createPost(input: CreatePostInput!): PostDto!
+}
+
+input CreatePostInput {
+  ownerId: String!
+  ownerUserName: String!
+  imageListUri: [String!]!
+  description: String!
+}

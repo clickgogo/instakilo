@@ -7,7 +7,7 @@ import { Model } from "mongoose";
 export class PostRepository {
     constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>){}
 
-    async createPost(post: Post){
+    async createPost(post: Post): Promise<Post>{
         const newPost = await this.postModel.create(post);
         return newPost.save();
     }

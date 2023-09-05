@@ -5,16 +5,19 @@ import { Post, PostSchema } from './schemas/post.schema';
 import { PostResolver } from './post.resolver';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: 'schema.gql',
+      autoSchemaFile: join(process.cwd(), 'src/post/graphql/schema.gql'),
     }),
-    MongooseModule.forRoot(`mongodb://root:safestPasswordInTheWorld@localhost:27017`),
+    MongooseModule.forRoot(
+      `mongodb://root:safestPasswordInTheWorld@localhost:27017`,
+    ),
     MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
   ],
   providers: [PostService, PostResolver],
-  exports: [PostService]
+  exports: [PostService],
 })
 export class PostModule {}
