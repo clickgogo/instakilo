@@ -30,13 +30,13 @@ export class GatewayController {
   }
 
   @Post('signup')
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   async signup(@Body() dto: RegisterDto) {
     return this.authService.signup(dto);
   }
 
   @Post('login')
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.OK)
   async login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }
