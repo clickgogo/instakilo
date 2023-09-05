@@ -5,8 +5,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 
 @Module({
-    imports: [JwtModule],
-    controllers: [GatewayController],
-    providers: [AuthService, UserService]
+  imports: [
+    JwtModule,
+  ],
+  controllers: [GatewayController],
+  providers: [AuthService, UserService],
 })
 export class ApiGatewayModule {}

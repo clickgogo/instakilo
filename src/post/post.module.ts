@@ -1,9 +1,20 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PostService } from './post.service';
-
+import { Post, PostSchema } from './schemas/post.schema';
+import { PostResolver } from './post.resolver';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 @Module({
-    imports: [MongooseModule.forRoot('mongodb://localhost/instakilo-post-db')],
-    providers: [PostService]
+  imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: 'schema.gql',
+    }),
+    MongooseModule.forRoot(`mongodb://root:safestPasswordInTheWorld@localhost:27017`),
+    MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
+  ],
+  providers: [PostService, PostResolver],
+  exports: [PostService]
 })
 export class PostModule {}
