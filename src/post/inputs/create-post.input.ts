@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, IsUUID } from 'class-validator';
+import { ArrayMinSize, IsArray, IsString, IsUUID } from 'class-validator';
 
 @InputType()
 export class CreatePostInput {
@@ -10,6 +10,9 @@ export class CreatePostInput {
   @IsString()
   ownerUserName: string;
   @Field((type) => [String])
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsString({each: true})
   imageListUri: string[];
   @Field()
   @IsString()

@@ -16,10 +16,10 @@ export class Post {
   @Prop({ required: true })
   ownerUserName: string;
 
-  @Prop({ required: true })
-  imageUri: string[];
+  @Prop({ required: true, type: [String] })
+  imageListUri: [string];
 
-  @Prop({ default: ""})
+  @Prop({ default: '' })
   description: string;
 
   @Prop({

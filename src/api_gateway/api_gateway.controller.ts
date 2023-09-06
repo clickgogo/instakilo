@@ -2,6 +2,7 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -13,6 +14,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { AuthService, LoginDto, RegisterDto } from 'src/auth/index';
 import { User, AtGuard, RtGuard } from 'src/common/index';
+import { PostService } from 'src/post/post.service';
 import { FollowUserDto, ProfileDto, UserService } from 'src/user/index';
 @Controller()
 export class GatewayController {
@@ -21,6 +23,7 @@ export class GatewayController {
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private readonly postService: PostService,
     config: ConfigService
   ) {
     this.postServiceClient = new ApolloClient({
@@ -92,5 +95,10 @@ export class GatewayController {
     } catch (error) {
       return error
     }
+  }
+
+  @Delete("post/clear-db")
+  async clearDB(){
+    return this.postService.clearDB()
   }
 }
