@@ -9,7 +9,7 @@ import { join } from 'path';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
+      driver: ApolloDriver, 
       autoSchemaFile: join(process.cwd(), 'src/post/graphql/schema.gql'),
     }),
     MongooseModule.forRoot(

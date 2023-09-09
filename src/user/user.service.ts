@@ -5,8 +5,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { FollowUserDto, LoggedUserDto, ProfileDto } from './dto';
-import { UserPrismaService } from 'src/user-prisma/user-prisma.service';
 import { IUser, IUserAndFollowing, followOrUnfollow } from './types/index';
+import { UserPrismaService } from './user-prisma/user-prisma.service';
 
 @Injectable()
 export class UserService {
@@ -97,7 +97,8 @@ export class UserService {
       const userToFollow = await this.checkIfTargetUserExists(userToFollowReq);
 
       //check if user requested to follow himself
-      if(userFollowing.username === userToFollow.username) throw new BadRequestException("User can't follow self account")
+      if (userFollowing.username === userToFollow.username)
+        throw new BadRequestException("User can't follow self account");
 
       const { followingResponse } = await this.addFollowingAndFollower(
         userFollowing,

@@ -20,7 +20,7 @@ type Query {
 
 type Mutation {
   createPost(input: CreatePostInput!): CreatePostDto!
-  modifyPostDescription(input: ModifyPostDescriptionInput!): CreatePostDto!
+  modifyPostDescription(input: ModifyPostInput!): CreatePostDto!
 }
 
 input CreatePostInput {
@@ -30,7 +30,8 @@ input CreatePostInput {
   description: String!
 }
 
-input ModifyPostDescriptionInput {
+input ModifyPostInput {
+  ownerUserName: String!
   description: String!
   postId: String!
 }

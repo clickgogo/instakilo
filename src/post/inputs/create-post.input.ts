@@ -4,7 +4,7 @@ import { ArrayMinSize, IsArray, IsString, IsUUID } from 'class-validator';
 @InputType()
 export class CreatePostInput {
   @Field()
-  @IsUUID()
+  @IsUUID("all")
   ownerId: string;
   @Field()
   @IsString()

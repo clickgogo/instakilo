@@ -20,6 +20,16 @@ services:
       MONGO_PASSWORD: safestPasswordInTheWorld
     networks:
       - instakiloNetwork
+  instakilo-comments-db:
+    image: couchdb
+    restart: always
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=ifThisPasswordIsHackedTheWorldIsUnsafe
+    networks:
+      - instakiloNetwork
 networks:
   instakiloNetwork:
   

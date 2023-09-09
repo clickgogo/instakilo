@@ -4,7 +4,7 @@ import {
   Injectable,
   BadRequestException,
 } from '@nestjs/common';
-import { UserPrismaService } from 'src/user-prisma/user-prisma.service';
+import { UserPrismaService } from 'src/user/user-prisma/user-prisma.service';
 import { RegisterDto, LoginDto, LogoutDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
@@ -115,6 +115,7 @@ export class AuthService {
         },
         {
           secret: this.config.get('JWT_SECRET'),
+          //TODO: change expiration date to 60*15 for production
           expiresIn: 60 * 15,
         },
       ),

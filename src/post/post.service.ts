@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Post } from './schemas/post.schema';
 import { CreatePostInput } from './inputs/create-post.input';
-import { ModifyPostDescriptionInput } from './inputs/modify-post-description.input';
+import { ModifyPostInput } from './inputs/modify-post.input';
 
 @Injectable()
 export class PostService {
@@ -20,7 +20,7 @@ export class PostService {
     return await newPost.save();
   }
 
-  async modifyPostDescription(input: ModifyPostDescriptionInput) {
+  async modifyPost(input: ModifyPostInput) {
     const filter = {
       postId: input.postId,
     };

@@ -2,20 +2,24 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import {
   Body,
   Controller,
-  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   Post,
   Put,
+  Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
 import { AuthService, LoginDto, RegisterDto } from 'src/auth/index';
 import { User, AtGuard, RtGuard } from 'src/common/index';
 import { PostService } from 'src/post/post.service';
 import { FollowUserDto, ProfileDto, UserService } from 'src/user/index';
+import { NewPostDto } from './dto';
+import { CommentService } from 'src/comment/comment.service';
 @Controller()
 export class GatewayController {
   private readonly postServiceClient: ApolloClient<unknown>;
@@ -23,8 +27,8 @@ export class GatewayController {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private readonly postService: PostService,
-    config: ConfigService
+    private commentService: CommentService,
+    config: ConfigService,
   ) {
     this.postServiceClient = new ApolloClient({
       uri: config.get('GRAPHQL_URL') || 'http://localhost:3300/graphql',
@@ -86,19 +90,97 @@ export class GatewayController {
   async getHello() {
     try {
       const { data } = await this.postServiceClient.query({
-      query: gql`
-      query{
-        hello
-      }`,
-    });
-    return data;
+        query: gql`
+          query {
+            hello
+          }
+        `,
+      });
+      return data;
     } catch (error) {
-      return error
+      return error;
     }
   }
 
-  @Delete("post/clear-db")
-  async clearDB(){
-    return this.postService.clearDB()
+  @Get('post/user/:username')
+  async getPostsByUser(@Param('username') username: string) {
+    try {
+      const { data } = await this.postServiceClient.query({
+        query: gql`
+          query {
+            getAllPostsByUser(username: ${JSON.stringify(username)}) {
+              postId
+              ownerId
+              ownerUserName
+              imageListUri
+              description
+              createdAt
+            }
+          }
+        ` /*context: {
+          headers: {
+            "Authorization": req.headers.authorization,
+          },
+        },*/,
+      });
+
+      return data.getAllPostsByUser;
+    } catch (error) {
+      return { error };
+    }
+  }
+
+  @Post('post/create/')
+  async createPost(@Req() req: Request, @Body() postInput: NewPostDto) {
+    try {
+      const imgArray = postInput.imageUrlsList.split(",").map(eachURL => eachURL.trim());
+      const { data } = await this.postServiceClient.mutate({
+        mutation: gql`
+          mutation CreatePost($input: CreatePostInput!) {
+            createPost(input: $input) {
+              postId
+              ownerId
+              ownerUserName
+              description
+              imageListUri
+              createdAt
+              likes
+            }
+          }
+        `,
+        variables: {
+          input: {
+            ownerId: postInput.ownerId,
+            ownerUserName: postInput.username,
+            imageListUri: imgArray,
+            description: postInput.description,
+          },
+        },
+        context: {
+          Headers: {
+            Authorization: req.headers.authorization,
+          },
+        },
+      });
+
+      return data;
+    } catch (error) {
+      return { error };
+    }
+  }
+
+  @Post("Comments/create")
+  async newComment(@Body() postInput: any){
+    return this.commentService.createComment(postInput)
+  }
+
+  @Get("Comments/all")
+  async getAllComments(){
+    return this.commentService.getAllComments()
+  }
+
+  @Get("Comments/:postId")
+  async getAllCommentsByPostId(@Param('postId') postId: string){
+    return this.commentService.getAllCommentsByPostId(postId)
   }
 }
