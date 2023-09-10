@@ -169,23 +169,28 @@ export class GatewayController {
     }
   }
 
-  @Post("Comments/create")
+  @Post("comments/create")
   async newComment(@Body() postInput: any){
     return this.commentService.createComment(postInput)
   }
 
-  @Get("Comments/all")
+  @Get("comments/all")
   async getAllComments(){
     return this.commentService.getAllComments()
   }
 
-  @Get("Comments/post/:postId")
+  @Get("comments/post/:postId")
   async getAllCommentsByPostId(@Param('postId') postId: string){
     return this.commentService.getAllCommentsByPostId(postId)
   }
 
-  @Get("Comments/user/:userId")
+  @Get("comments/user/:userId")
   async getAllCommentsByUserId(@Param('userId') userId: string){
     return this.commentService.getAllCommentsByUserId(userId)
+  }
+
+  @Post("comments/answer")
+  async answerComment(@Body() commentInput: any){
+    return this.commentService.answerComment(commentInput)
   }
 }
