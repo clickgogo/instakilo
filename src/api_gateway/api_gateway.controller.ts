@@ -179,8 +179,13 @@ export class GatewayController {
     return this.commentService.getAllComments()
   }
 
-  @Get("Comments/:postId")
+  @Get("Comments/post/:postId")
   async getAllCommentsByPostId(@Param('postId') postId: string){
     return this.commentService.getAllCommentsByPostId(postId)
+  }
+
+  @Get("Comments/user/:userId")
+  async getAllCommentsByUserId(@Param('userId') userId: string){
+    return this.commentService.getAllCommentsByUserId(userId)
   }
 }
