@@ -135,7 +135,9 @@ export class GatewayController {
   @Post('post/create/')
   async createPost(@Req() req: Request, @Body() postInput: NewPostDto) {
     try {
-      const imgArray = postInput.imageUrlsList.split(",").map(eachURL => eachURL.trim());
+      const imgArray = postInput.imageUrlsList
+        .split(',')
+        .map((eachURL) => eachURL.trim());
       const { data } = await this.postServiceClient.mutate({
         mutation: gql`
           mutation CreatePost($input: CreatePostInput!) {
@@ -171,38 +173,56 @@ export class GatewayController {
     }
   }
 
-  @Post("comments/create")
-  async newComment(@Body() postInput: any){
-    return this.commentService.createComment(postInput)
+  @Post('comments/create')
+  async newComment(@Body() postInput: any) {
+    return this.commentService.createComment(postInput);
   }
 
-  @Get("comments/all")
-  async getAllComments(){
-    return this.commentService.getAllComments()
+  @Get('comments/all')
+  async getAllComments() {
+    return this.commentService.getAllComments();
   }
 
-  @Get("comments/post/:postId")
-  async getAllCommentsByPostId(@Param('postId') postId: string){
-    return this.commentService.getAllCommentsByPostId(postId)
+  @Get('comments/post/:postId')
+  async getAllCommentsByPostId(@Param('postId') postId: string) {
+    return this.commentService.getAllCommentsByPostId(postId);
   }
 
-  @Get("comments/user/:userId")
-  async getAllCommentsByUserId(@Param('userId') userId: string){
-    return this.commentService.getAllCommentsByUserId(userId)
+  @Get('comments/user/:userId')
+  async getAllCommentsByUserId(@Param('userId') userId: string) {
+    return this.commentService.getAllCommentsByUserId(userId);
   }
 
-  @Post("comments/answer")
-  async answerComment(@Body() commentInput: any){
-    return this.commentService.answerComment(commentInput)
+  @Post('comments/answer')
+  async answerComment(@Body() commentInput: any) {
+    return this.commentService.answerComment(commentInput);
   }
 
-  @Get("likes/all")
-  async allLikes(@Body() likesInput: any){
-    return this.likesService.getAll()
+  @Get('likes/all')
+  async allLikes() {
+    return {
+      commentLikes: await this.likesService.getAllPostLikes(),
+      postLikes: await this.likesService.getAllCommentLikes(),
+    };
   }
 
-  @Post("likes/post")
-  async likePost(@Body() likesInput: any){
-    return this.likesService.newPostLike(likesInput)
+  @Post('likes/like-post')
+  async likePost(@Body() likeInput: any) {
+    return this.likesService.likePost(likeInput);
+  }
+
+  @Post('likes/unlike-post')
+  async unlikePost(@Body() unlikeInput: any) {
+    return this.likesService.unlikePost(unlikeInput);
+  }
+
+  @Post('likes/like-comment')
+  async likeComment(@Body() likeInput: any) {
+    return this.likesService.likeComment(likeInput);
+  }
+
+  @Post('likes/unlike-comment')
+  async unlikeComment(@Body() unlikeInput: any) {
+    return this.likesService.unlikeComment(unlikeInput);
   }
 }
