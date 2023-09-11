@@ -20,6 +20,7 @@ import { PostService } from 'src/post/post.service';
 import { FollowUserDto, ProfileDto, UserService } from 'src/user/index';
 import { NewPostDto } from './dto';
 import { CommentService } from 'src/comment/comment.service';
+import { LikesService } from 'src/likes/likes.service';
 @Controller()
 export class GatewayController {
   private readonly postServiceClient: ApolloClient<unknown>;
@@ -28,6 +29,7 @@ export class GatewayController {
     private authService: AuthService,
     private userService: UserService,
     private commentService: CommentService,
+    private likesService: LikesService,
     config: ConfigService,
   ) {
     this.postServiceClient = new ApolloClient({
@@ -192,5 +194,15 @@ export class GatewayController {
   @Post("comments/answer")
   async answerComment(@Body() commentInput: any){
     return this.commentService.answerComment(commentInput)
+  }
+
+  @Get("likes/all")
+  async allLikes(@Body() likesInput: any){
+    return this.likesService.getAll()
+  }
+
+  @Post("likes/post")
+  async likePost(@Body() likesInput: any){
+    return this.likesService.newPostLike(likesInput)
   }
 }

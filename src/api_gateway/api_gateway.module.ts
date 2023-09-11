@@ -5,13 +5,16 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import { PostModule } from 'src/post/post.module';
 import { CommentService } from 'src/comment/comment.service';
+import { LikesService } from 'src/likes/likes.service';
+import { ThinkyModule } from 'src/likes/likes-thinky/thinky.module';
 
 @Module({
   imports: [
     JwtModule,
-    PostModule
+    PostModule,
+    ThinkyModule
   ],
   controllers: [GatewayController],
-  providers: [AuthService, UserService, CommentService],
+  providers: [AuthService, UserService, CommentService, LikesService],
 })
 export class ApiGatewayModule {}

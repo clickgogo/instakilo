@@ -30,6 +30,16 @@ services:
       - COUCHDB_PASSWORD=ifThisPasswordIsHackedTheWorldIsUnsafe
     networks:
       - instakiloNetwork
+  instakilo-likes-db:
+    image: rethinkdb:latest
+    ports:
+      - '8080:8080'  # RethinkDB web UI
+      - '28015:28015' # RethinkDB client driver port
+      - '29015:29015' # RethinkDB intracluster communication port
+    networks:
+      - instakiloNetwork
+    environment:
+      - RETHINKDB_PASSWORD=thisIsNotAPassword
 networks:
   instakiloNetwork:
   
