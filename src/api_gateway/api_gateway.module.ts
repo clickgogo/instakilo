@@ -12,7 +12,7 @@ import { ThinkyModule } from 'src/likes/likes-thinky/thinky.module';
   imports: [
     JwtModule,
     PostModule,
-    ThinkyModule
+    ThinkyModule,
   ],
   controllers: [GatewayController],
   providers: [AuthService, UserService, CommentService, LikesService],
