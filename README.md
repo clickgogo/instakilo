@@ -45,23 +45,11 @@
     <li>📝 Post Microservice: TODO - Describe the purpose and functionality of the Post Microservice.</li>
     <li>💬 Comment Microservice: TODO - Describe the purpose and functionality of the Comment Microservice.</li>
     <li>❤️ Likes Microservice: TODO - Describe the purpose and functionality of the Likes Microservice.</li>
-    <li> Stories Microservice: TODO - Describe the purpose and functionality of the Feed Microservice.</li>
-    <li> Messages Microservice: TODO - Describe the purpose and functionality of the Feed Microservice.</li>
+    <li>🖼️ Stories Microservice: TODO - Describe the purpose and functionality of the Feed Microservice.</li>
+    <li>💬 Chat Microservice: TODO - Describe the purpose and functionality of the Feed Microservice.</li>
     <li>📰 Feed Microservice: TODO - Describe the purpose and functionality of the Feed Microservice.</li>
     <li>🌐 API Gateway Microservice: TODO - Describe the purpose and functionality of the API Gateway Microservice.</li>
   </ul>
-
-  <h2>💼 User Prisma Module</h2>
-
-  <ul>
-    <li>💼 User Prisma Module: TODO - Describe the purpose and functionality of the User Prisma Module.</li>
-  </ul>
-
-  <h2>🧪 Testing</h2>
-
-  <p>To run tests for the Instakilo microservices, use the following command within each microservice's directory:</p>
-
-  <pre><code>npm test</code></pre>
 
   <h2>👥 Contributing</h2>
 
