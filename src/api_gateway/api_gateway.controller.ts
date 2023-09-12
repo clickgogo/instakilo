@@ -178,11 +178,6 @@ export class GatewayController {
     return this.commentService.createComment(postInput);
   }
 
-  @Get('comments/all')
-  async getAllComments() {
-    return this.commentService.getAllComments();
-  }
-
   @Get('comments/post/:postId')
   async getAllCommentsByPostId(@Param('postId') postId: string) {
     return this.commentService.getAllCommentsByPostId(postId);

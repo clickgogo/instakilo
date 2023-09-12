@@ -26,18 +26,12 @@
   <pre><code>cd instakilo</code></pre>
 
   <ol start="3">
-    <li>Install dependencies for each microservice:</li>
+    <li>Quick Start:</li>
   </ol>
   
-  <pre><code>npm install</code></pre>
+  <pre><code>npm run start:with:deployment</code></pre>
   
   <h3>🚀 Usage</h3>
-
-  <ol>
-    <li>Start each microservice:</li>
-  </ol>
-  
-  <pre><code>npm run start:dev</code></pre>
 
   <p>Open your browser and visit relevant endpoints or use the API Gateway to interact with the microservices.</p>
 
@@ -51,6 +45,8 @@
     <li>📝 Post Microservice: TODO - Describe the purpose and functionality of the Post Microservice.</li>
     <li>💬 Comment Microservice: TODO - Describe the purpose and functionality of the Comment Microservice.</li>
     <li>❤️ Likes Microservice: TODO - Describe the purpose and functionality of the Likes Microservice.</li>
+    <li> Stories Microservice: TODO - Describe the purpose and functionality of the Feed Microservice.</li>
+    <li> Messages Microservice: TODO - Describe the purpose and functionality of the Feed Microservice.</li>
     <li>📰 Feed Microservice: TODO - Describe the purpose and functionality of the Feed Microservice.</li>
     <li>🌐 API Gateway Microservice: TODO - Describe the purpose and functionality of the API Gateway Microservice.</li>
   </ul>
