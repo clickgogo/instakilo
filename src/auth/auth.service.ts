@@ -3,14 +3,18 @@ import {
   InternalServerErrorException,
   Injectable,
   BadRequestException,
-} from '@nestjs/common';
-import { UserPrismaService } from 'src/user/user-prisma/user-prisma.service';
-import { RegisterDto, LoginDto, LogoutDto } from './dto';
-import * as argon from 'argon2';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { tokens } from './types';
+} from "@nestjs/common";
+import { UserPrismaService } from "src/user/user-prisma/user-prisma.service";
+import * as argon from "argon2";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
+import { tokens } from "./types";
+import {
+  RegistrationDto,
+  LoginDto,
+  LogoutDto,
+} from "src/api_gateway/dto/auth-dto";
 
 @Injectable()
 export class AuthService {
@@ -20,7 +24,7 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async signup(dto: RegisterDto) {
+  async signup(dto: RegistrationDto) {
     const hash: string = await this.hashData(dto.password);
     try {
       const user = await this.userPrisma.user.create({
@@ -28,18 +32,18 @@ export class AuthService {
           username: dto.username,
           email: dto.email,
           hash: hash,
-          //hashedRefreshToken: null
+          profile: {},
         },
       });
 
       return {
-        message: 'User Registered successfully',
+        message: "User Registered successfully",
         userId: user.id,
       };
     } catch (err) {
       if (err instanceof PrismaClientKnownRequestError) {
-        if (err.code === 'P2002') {
-          throw new ForbiddenException('Username or email already exist');
+        if (err.code === "P2002") {
+          throw new ForbiddenException("Username or email already exist");
         }
       }
     }
@@ -53,11 +57,11 @@ export class AuthService {
         },
       });
 
-      if (!user) throw new ForbiddenException('Invalid email');
+      if (!user) throw new ForbiddenException("Invalid email");
 
       const passwordMatch = await this.verifyHash(user.hash, dto.password);
 
-      if (!passwordMatch) throw new ForbiddenException('Invalid password');
+      if (!passwordMatch) throw new ForbiddenException("Invalid password");
 
       const { accessToken, refreshToken } = await this.getTokens(
         user.id,
@@ -69,7 +73,7 @@ export class AuthService {
       await this.updateRefreshToken(user.id, refreshToken);
 
       return {
-        message: 'User access successful',
+        message: "User access successful",
         accessToken,
         refreshToken,
       };
@@ -93,11 +97,11 @@ export class AuthService {
       });
 
       return {
-        message: 'Successfully logged out',
+        message: "Successfully logged out",
       };
     } catch (error) {
-      if (error.code == 'P2025')
-        throw new BadRequestException('User already Logged out');
+      if (error.code == "P2025")
+        throw new BadRequestException("User already Logged out");
     }
   }
 
@@ -114,7 +118,7 @@ export class AuthService {
           username,
         },
         {
-          secret: this.config.get('JWT_SECRET'),
+          secret: this.config.get("JWT_SECRET"),
           //TODO: change expiration date to 60*15 for production
           expiresIn: 60 * 15,
         },
@@ -126,7 +130,7 @@ export class AuthService {
           username,
         },
         {
-          secret: this.config.get('REFRESH_JWT_SECRET'),
+          secret: this.config.get("REFRESH_JWT_SECRET"),
           //one week expiration
           expiresIn: 60 * 60 * 24 * 7,
         },
@@ -163,14 +167,14 @@ export class AuthService {
         },
       });
 
-      if (!user) throw new ForbiddenException('No User Found');
+      if (!user) throw new ForbiddenException("No User Found");
 
       const refresh_token_matches = this.verifyHash(
         user.hashedRefreshToken,
         dto.refreshToken,
       );
 
-      if (!refresh_token_matches) throw new ForbiddenException('Access denied');
+      if (!refresh_token_matches) throw new ForbiddenException("Access denied");
 
       const { accessToken, refreshToken } = await this.getTokens(
         user.id,
@@ -181,7 +185,7 @@ export class AuthService {
       await this.updateRefreshToken(user.id, refreshToken);
 
       return {
-        message: 'Refresh Tokens successfully',
+        message: "Refresh Tokens successfully",
         accessToken,
         refreshToken,
       };

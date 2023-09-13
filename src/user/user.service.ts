@@ -12,7 +12,7 @@ import { UserPrismaService } from './user-prisma/user-prisma.service';
 export class UserService {
   constructor(private userPrisma: UserPrismaService) {}
 
-  async checkIfUserAlreadyFollows(
+  private async checkIfUserAlreadyFollows(
     follower: FollowUserDto,
     options: followOrUnfollow,
   ) {
@@ -39,7 +39,7 @@ export class UserService {
     return userFollowing;
   }
 
-  async checkIfTargetUserExists(userToFollowReq: FollowUserDto) {
+  private async checkIfTargetUserExists(userToFollowReq: FollowUserDto) {
     const userToFollow = await this.userPrisma.user.findUnique({
       where: {
         username: userToFollowReq.username,
@@ -51,7 +51,7 @@ export class UserService {
     return userToFollow;
   }
 
-  async addFollowingAndFollower(
+  private async addFollowingAndFollower(
     userFollowing: IUserAndFollowing,
     userToFollow: IUser,
   ) {
@@ -69,7 +69,7 @@ export class UserService {
     return { followingResponse };
   }
 
-  async removeFollowingAndFollower(
+  private async removeFollowingAndFollower(
     userFollowing: IUserAndFollowing,
     userToUnfollow: IUser,
   ) {

@@ -10,7 +10,9 @@
   <h2>🚀 Getting Started</h2>
 
   <h3>🔧 Prerequisites</h3>
-  <p>Node.js - version 18 or higher<br>npm - version 8 or higher</p>
+  <p>Node.js - version 18 or higher</p>
+  <p>npm - version 8 or higher</p>
+  <p>Docker version 24 or higher</p>
 
   <h3>⚙️ Installation</h3>
   <ol>

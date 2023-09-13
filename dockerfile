@@ -16,4 +16,4 @@ ENV USER_DATABASE_URL="postgresql://postgres:thisIsMyBankPassword4Real@localhost
 ENV JWT_SECRET="Eux8Db4aBaqF8fpdVP5vyhEazfpR"
 ENV REFRESH_JWT_SECRET="5D7D8aY^Yxaty4=nQU4vQ&smHrwU%Ne"
 
-CMD ["npm", "start"]
+CMD ["npm", "start:dev"]

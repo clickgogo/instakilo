@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import * as Nano from 'nano';
-import { CreateCommentDto } from './dto/create-comment.dto';
+import { CreateCommentDto } from 'src/api_gateway/dto/comment-dto/index';
 import { DATABASES } from './types';
 import { randomUUID } from 'crypto';
 

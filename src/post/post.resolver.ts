@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { PostService } from './post.service';
-import { CreatePostDto } from './dto/create-post.dto';
+import { CreatePostDto } from '../api_gateway/dto/post-dto/create-post.dto';
 import { CreatePostInput } from './inputs/create-post.input';
 import { ModifyPostInput } from './inputs/modify-post.input';
 import { AtGuard, GraphqlAtGuard, User } from 'src/common';

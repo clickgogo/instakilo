@@ -13,7 +13,7 @@ import { join } from 'path';
       autoSchemaFile: join(process.cwd(), 'src/post/graphql/schema.gql'),
     }),
     MongooseModule.forRoot(
-      `mongodb://root:safestPasswordInTheWorld@localhost:27017`,
+      "mongodb://localhost:27017",
     ),
     MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
   ],
