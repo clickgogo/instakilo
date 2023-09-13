@@ -1,2 +1,2 @@
-export * from "./comment-likes.model"
-export * from "./post-likes.model"
+export * from "./comment-likes.model";
+export * from "./post-likes.model";

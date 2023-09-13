@@ -2,18 +2,18 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
-} from '@nestjs/common';
-import * as Nano from 'nano';
-import { CreateCommentDto } from 'src/api_gateway/dto/comment-dto/index';
-import { DATABASES } from './types';
-import { randomUUID } from 'crypto';
+} from "@nestjs/common";
+import * as Nano from "nano";
+import { CreateCommentDto } from "src/api_gateway/dto/comment-dto/index";
+import { DATABASES } from "./types";
+import { randomUUID } from "crypto";
 
 @Injectable()
 export class CommentService {
   private readonly couchdb: Nano.ServerScope;
   constructor() {
     this.couchdb = Nano(
-      'http://admin:ifThisPasswordIsHackedTheWorldIsUnsafe@localhost:5984',
+      "http://admin:ifThisPasswordIsHackedTheWorldIsUnsafe@localhost:5984",
     );
   }
 
@@ -46,13 +46,13 @@ export class CommentService {
         postId: postId,
       },
       fields: [
-        '_id',
-        '_rev',
-        'postId',
-        'userId',
-        'username',
-        'comment',
-        'answers',
+        "_id",
+        "_rev",
+        "postId",
+        "userId",
+        "username",
+        "comment",
+        "answers",
       ],
     });
     return result;
@@ -65,13 +65,13 @@ export class CommentService {
         userId: userId,
       },
       fields: [
-        '_id',
-        '_rev',
-        'postId',
-        'userId',
-        'username',
-        'comment',
-        'answers',
+        "_id",
+        "_rev",
+        "postId",
+        "userId",
+        "username",
+        "comment",
+        "answers",
       ],
     });
     return result;
@@ -90,11 +90,11 @@ export class CommentService {
         Comment: commentInput.comment,
         createAt: Date.now(),
       });
-      
+
       return await db.insert(result);
     } catch (error) {
-      if (error.description === 'missing') {
-        throw new BadRequestException('Comment Not Found');
+      if (error.description === "missing") {
+        throw new BadRequestException("Comment Not Found");
       }
       throw new InternalServerErrorException(error.description);
     }
@@ -108,7 +108,7 @@ export class CommentService {
       }
     } catch (error) {
       //check if DB already exists
-      if (error.errid === 'non_200') return this.couchdb.db.use(db);
+      if (error.errid === "non_200") return this.couchdb.db.use(db);
     }
   }
 }

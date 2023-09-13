@@ -13,8 +13,7 @@ import { tokens } from "./types";
 import {
   RegistrationDto,
   LoginDto,
-  LogoutDto,
-} from "src/api_gateway/dto/auth-dto";
+} from "../api_gateway/dto/index";
 
 @Injectable()
 export class AuthService {
@@ -32,7 +31,14 @@ export class AuthService {
           username: dto.username,
           email: dto.email,
           hash: hash,
-          profile: {},
+          profile: {
+            create: {
+              photo_url: "",
+              bio: "",
+              followerCount: 0,
+              followsCount: 0
+            }
+          },
         },
       });
 
@@ -82,11 +88,11 @@ export class AuthService {
     }
   }
 
-  async logout(dto: LogoutDto) {
+  async logout(user: any) {
     try {
       await this.userPrisma.user.update({
         where: {
-          username: dto.username,
+          username: user.username,
           hashedRefreshToken: {
             not: null,
           },
@@ -194,11 +200,11 @@ export class AuthService {
     }
   }
 
-  hashData(data: string): Promise<string> {
+  private hashData(data: string): Promise<string> {
     return argon.hash(data);
   }
 
-  verifyHash(password1: string, password2: string): Promise<boolean> {
+  private verifyHash(password1: string, password2: string): Promise<boolean> {
     return argon.verify(password1, password2);
   }
 }

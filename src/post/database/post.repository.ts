@@ -5,20 +5,20 @@ import { Model } from "mongoose";
 
 @Injectable()
 export class PostRepository {
-    constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>){}
+  constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) {}
 
-    async createPost(post: Post): Promise<Post>{
-        const newPost = await this.postModel.create(post);
-        return newPost.save();
-    }
+  async createPost(post: Post): Promise<Post> {
+    const newPost = await this.postModel.create(post);
+    return newPost.save();
+  }
 
-    async findOnePost(){}
+  async findOnePost() {}
 
-    async findAllPostsFromUser(username: string): Promise<Post[]>{
-        return await this.postModel.find({ ownerUserName: username }).exec();
-    }
+  async findAllPostsFromUser(username: string): Promise<Post[]> {
+    return await this.postModel.find({ ownerUserName: username }).exec();
+  }
 
-    async editPostDescription(){}
+  async editPostDescription() {}
 
-    async deleteOnePost(){}
+  async deleteOnePost() {}
 }

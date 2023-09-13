@@ -1,15 +1,11 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
-import PostLikes from './models/post-likes.model';
-import { LikeCommentDto, LikePostDto } from '../api_gateway/dto/like-dto';
-import CommentLikes from './models/comment-likes.model';
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import PostLikes from "./models/post-likes.model";
+import { LikeCommentDto, LikePostDto } from "../api_gateway/dto/like-dto";
+import CommentLikes from "./models/comment-likes.model";
 
 @Injectable()
 export class LikesService {
-  constructor(@Inject('RETHINKDB_CONNECTION') private readonly rethinkdb) {}
+  constructor(@Inject("RETHINKDB_CONNECTION") private readonly rethinkdb) {}
 
   async getAllPostLikes() {
     return await PostLikes.run();
@@ -26,7 +22,7 @@ export class LikesService {
     }).run();
 
     if (alreadyLikes.length) {
-      throw new BadRequestException('Already Likes Post');
+      throw new BadRequestException("Already Likes Post");
     }
 
     const newLike = new PostLikes(input);
@@ -54,7 +50,7 @@ export class LikesService {
     }).run();
 
     if (alreadyLikes.length) {
-      throw new BadRequestException('Already Likes Comment');
+      throw new BadRequestException("Already Likes Comment");
     }
 
     const newLike = new CommentLikes(input);

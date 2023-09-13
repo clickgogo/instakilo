@@ -1,10 +1,10 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { PostService } from './post.service';
-import { CreatePostDto } from '../api_gateway/dto/post-dto/create-post.dto';
-import { CreatePostInput } from './inputs/create-post.input';
-import { ModifyPostInput } from './inputs/modify-post.input';
-import { AtGuard, GraphqlAtGuard, User } from 'src/common';
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
+import { PostService } from "./post.service";
+import { PostDto } from "../api_gateway/dto/index";
+import { CreatePostInput } from "./inputs/create-post.input";
+import { ModifyPostInput } from "./inputs/modify-post.input";
+import { AtGuard, GraphqlAtGuard, User } from "src/common";
+import { UnauthorizedException, UseGuards } from "@nestjs/common";
 
 @Resolver()
 export class PostResolver {
@@ -12,23 +12,23 @@ export class PostResolver {
 
   @Query(() => String)
   hello() {
-    return 'Hello developer';
+    return "Hello developer";
   }
 
-  @Query(() => [CreatePostDto])
+  @Query(() => [PostDto])
   async getAllPosts() {
     return await this.postService.getAllPosts();
   }
 
-  @Query(() => [CreatePostDto])
-  async getAllPostsByUser(@Args('username') username: string) {
+  @Query(() => [PostDto])
+  async getAllPostsByUser(@Args("username") username: string) {
     return await this.postService.getAllPostsByUser(username);
   }
 
-  @Mutation(() => CreatePostDto)
+  @Mutation(() => PostDto)
   // @UseGuards(AtGuard)
   async createPost(
-    @Args('input') input: CreatePostInput /*@User() user: any*/,
+    @Args("input") input: CreatePostInput /*@User() user: any*/,
   ) {
     /*if (!isUserLoggedSameAsInput(user, input))
       throw new UnauthorizedException('Unauthorized');*/
@@ -36,8 +36,8 @@ export class PostResolver {
     return this.postService.createPost(input);
   }
 
-  @Mutation(() => CreatePostDto)
-  async modifyPostDescription(@Args('input') input: ModifyPostInput) {
+  @Mutation(() => PostDto)
+  async modifyPostDescription(@Args("input") input: ModifyPostInput) {
     return this.postService.modifyPost(input);
   }
 }

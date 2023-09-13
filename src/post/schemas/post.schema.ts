@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsUUID } from 'class-validator';
-import { Document } from 'mongoose';
-import { v4 as UUID } from 'uuid';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { IsUUID } from "class-validator";
+import { Document } from "mongoose";
+import { v4 as UUID } from "uuid";
 
 export type PostDocument = Post & Document;
 @Schema()
@@ -19,7 +19,7 @@ export class Post {
   @Prop({ required: true, type: [String] })
   imageListUri: [string];
 
-  @Prop({ default: '' })
+  @Prop({ default: "" })
   description: string;
 
   @Prop({

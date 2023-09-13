@@ -10,16 +10,26 @@ import {
   Put,
   UseGuards,
   Req,
+  BadRequestException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Request } from "express";
-import { LoginDto, RegistrationDto } from "./dto/auth-dto/index";
+import {
+  RegistrationDto,
+  LoginDto,
+  FollowUserDto,
+  ProfileDto,
+  CreatePostDto,
+  LikeCommentDto,
+  LikePostDto,
+  CreateCommentDto,
+} from "./dto/index";
 import { User, AtGuard, RtGuard } from "src/common/index";
-import { FollowUserDto, ProfileDto, UserService } from "src/user/index";
-import { PostDto } from "./dto";
+import { AuthService } from "src/auth/auth.service";
+import { UserService } from "src/user/user.service";
 import { CommentService } from "src/comment/comment.service";
 import { LikesService } from "src/likes/likes.service";
-import { AuthService } from "src/auth/auth.service";
+import { ApiParam } from "@nestjs/swagger";
 @Controller()
 export class GatewayController {
   private readonly postServiceClient: ApolloClient<unknown>;
@@ -83,27 +93,21 @@ export class GatewayController {
   }
 
   @Get("user/profile/:username")
+  @ApiParam({
+    name: "Username",
+    type: String,
+    required: true
+  })
   getProfile(@User() user: any, @Param("username") username: string) {
     return this.userService.getProfile(username);
   }
 
-  @Get("post/hello")
-  async getHello() {
-    try {
-      const { data } = await this.postServiceClient.query({
-        query: gql`
-          query {
-            hello
-          }
-        `,
-      });
-      return data;
-    } catch (error) {
-      return error;
-    }
-  }
-
   @Get("post/user/:username")
+  @ApiParam({
+    name: "Username",
+    type: String,
+    required: true
+  })
   async getPostsByUser(@Param("username") username: string) {
     try {
       const { data } = await this.postServiceClient.query({
@@ -132,9 +136,9 @@ export class GatewayController {
   }
 
   @Post("post/create/")
-  async createPost(@Req() req: Request, @Body() postInput: PostDto) {
+  async createPost(@Req() req: Request, @Body() dto: CreatePostDto) {
     try {
-      const imgArray = postInput.imageUrlsList
+      const imgArray = dto.imageUrlsList
         .split(",")
         .map((eachURL) => eachURL.trim());
       const { data } = await this.postServiceClient.mutate({
@@ -153,10 +157,10 @@ export class GatewayController {
         `,
         variables: {
           input: {
-            ownerId: postInput.ownerId,
-            ownerUserName: postInput.username,
+            ownerId: dto.ownerId,
+            ownerUserName: dto.username,
             imageListUri: imgArray,
-            description: postInput.description,
+            description: dto.description,
           },
         },
         context: {
@@ -173,16 +177,26 @@ export class GatewayController {
   }
 
   @Post("comments/create")
-  async newComment(@Body() postInput: any) {
-    return this.commentService.createComment(postInput);
+  async newComment(@Body() commentInput: CreateCommentDto) {
+    return this.commentService.createComment(commentInput);
   }
 
   @Get("comments/post/:postId")
+  @ApiParam({
+    name: "Post Id",
+    type: String,
+    required: true
+  })
   async getAllCommentsByPostId(@Param("postId") postId: string) {
     return this.commentService.getAllCommentsByPostId(postId);
   }
 
   @Get("comments/user/:userId")
+  @ApiParam({
+    name: "User Id",
+    type: String,
+    required: true
+  })
   async getAllCommentsByUserId(@Param("userId") userId: string) {
     return this.commentService.getAllCommentsByUserId(userId);
   }
@@ -192,16 +206,8 @@ export class GatewayController {
     return this.commentService.answerComment(commentInput);
   }
 
-  @Get("likes/all")
-  async allLikes() {
-    return {
-      commentLikes: await this.likesService.getAllPostLikes(),
-      postLikes: await this.likesService.getAllCommentLikes(),
-    };
-  }
-
   @Post("likes/like-post")
-  async likePost(@Body() likeInput: any) {
+  async likePost(@Body() likeInput: LikePostDto) {
     return this.likesService.likePost(likeInput);
   }
 
@@ -211,7 +217,7 @@ export class GatewayController {
   }
 
   @Post("likes/like-comment")
-  async likeComment(@Body() likeInput: any) {
+  async likeComment(@Body() likeInput: LikeCommentDto) {
     return this.likesService.likeComment(likeInput);
   }
 

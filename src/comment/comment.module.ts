@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { CommentService } from './comment.service';
+import { Module } from "@nestjs/common";
+import { CommentService } from "./comment.service";
 
 @Module({
-  providers: [CommentService]
+  providers: [CommentService],
 })
 export class CommentModule {}

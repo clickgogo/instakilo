@@ -1,11 +1,11 @@
-import * as thinky from 'thinky';
+import * as thinky from "thinky";
 
 const dbConfig = {
-  host: 'localhost',
+  host: "localhost",
   port: 28015,
-  db: 'instakilo_likes_db',
+  db: "instakilo_likes_db",
 };
 
-const thinkyInstance = thinky(dbConfig)
+const thinkyInstance = thinky(dbConfig);
 
-export { thinkyInstance as thinky}
+export { thinkyInstance as thinky };

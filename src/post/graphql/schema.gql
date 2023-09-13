@@ -2,7 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type CreatePostDto {
+type PostDto {
   postId: String!
   ownerId: String!
   ownerUserName: String!
@@ -14,13 +14,13 @@ type CreatePostDto {
 
 type Query {
   hello: String!
-  getAllPosts: [CreatePostDto!]!
-  getAllPostsByUser(username: String!): [CreatePostDto!]!
+  getAllPosts: [PostDto!]!
+  getAllPostsByUser(username: String!): [PostDto!]!
 }
 
 type Mutation {
-  createPost(input: CreatePostInput!): CreatePostDto!
-  modifyPostDescription(input: ModifyPostInput!): CreatePostDto!
+  createPost(input: CreatePostInput!): PostDto!
+  modifyPostDescription(input: ModifyPostInput!): PostDto!
 }
 
 input CreatePostInput {

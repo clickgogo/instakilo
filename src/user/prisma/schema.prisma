@@ -28,7 +28,7 @@ model Profile {
   bio         String?
   followerCount Int?
   followsCount Int?
-  user        User      @relation(fields: [username], references: [username])
+  user        User        @relation(fields: [username], references: [username])
 }
 
 model Following {

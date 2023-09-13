@@ -1,3 +1,3 @@
 export enum DATABASES {
-    COMMENTS = "comments"
+  COMMENTS = "comments",
 }

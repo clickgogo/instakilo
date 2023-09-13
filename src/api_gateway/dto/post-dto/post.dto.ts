@@ -1,29 +1,19 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsString, IsUUID } from "class-validator";
+import { Field, ObjectType } from "@nestjs/graphql";
 
+@ObjectType()
 export class PostDto {
-  @IsNotEmpty()
-  @IsUUID("all")
-  @ApiProperty({ type: String, description: "The Id of the user Posting" })
+  @Field()
+  postId: string;
+  @Field()
   ownerId: string;
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty({
-    type: String,
-    description: "The username of the user Posting",
-  })
-  username: string;
-  @IsNotEmpty()
-  @ApiProperty({
-    type: [String],
-    description: "The url of the images posted",
-  })
-  imageUrlsList: string;
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty({
-    type: String,
-    description: "Post description",
-  })
+  @Field()
+  ownerUserName: string;
+  @Field((type) => [String])
+  imageListUri: string[];
+  @Field()
   description: string;
+  @Field()
+  likes: number;
+  @Field()
+  createdAt: string;
 }

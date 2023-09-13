@@ -5,7 +5,7 @@ import { JwtStrategy } from "./strategy";
 import { RJwtStrategy } from "./strategy/refresh_jwt.strategy";
 
 @Module({
-    imports: [JwtModule.register({})],
-    providers: [AuthService, JwtStrategy, RJwtStrategy]
+  imports: [JwtModule.register({})],
+  providers: [AuthService, JwtStrategy, RJwtStrategy],
 })
-export class AuthModule{}
+export class AuthModule {}
