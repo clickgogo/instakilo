@@ -7,10 +7,11 @@ import { PostModule } from "src/post/post.module";
 import { CommentService } from "src/comment/comment.service";
 import { LikesService } from "src/likes/likes.service";
 import { ThinkyModule } from "src/likes/likes-thinky/thinky.module";
+import { ApiGatewayService } from './api_gateway.service';
 
 @Module({
   imports: [JwtModule, PostModule, ThinkyModule],
   controllers: [GatewayController],
-  providers: [AuthService, UserService, CommentService, LikesService],
+  providers: [AuthService, UserService, CommentService, LikesService, ApiGatewayService],
 })
 export class ApiGatewayModule {}

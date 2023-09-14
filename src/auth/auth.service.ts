@@ -63,7 +63,7 @@ export class AuthService {
         },
       });
 
-      if (!user) throw new ForbiddenException("Invalid email");
+      if (!user) throw new ForbiddenException("User not registered");
 
       const passwordMatch = await this.verifyHash(user.hash, dto.password);
 
@@ -165,7 +165,6 @@ export class AuthService {
   }
 
   async refreshToken(dto: any) {
-    console.log(dto);
     try {
       const user = await this.userPrisma.user.findUnique({
         where: {
@@ -191,7 +190,7 @@ export class AuthService {
       await this.updateRefreshToken(user.id, refreshToken);
 
       return {
-        message: "Refresh Tokens successfully",
+        message: "Refreshed Tokens successfully",
         accessToken,
         refreshToken,
       };

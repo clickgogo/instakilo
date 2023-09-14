@@ -10,9 +10,7 @@ import {
   Put,
   UseGuards,
   Req,
-  BadRequestException,
 } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { Request } from "express";
 import {
   RegistrationDto,
@@ -29,7 +27,16 @@ import { AuthService } from "src/auth/auth.service";
 import { UserService } from "src/user/user.service";
 import { CommentService } from "src/comment/comment.service";
 import { LikesService } from "src/likes/likes.service";
-import { ApiParam } from "@nestjs/swagger";
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiOkResponse,
+  ApiParam,
+  ApiTags,
+} from "@nestjs/swagger";
+@ApiTags("API")
 @Controller()
 export class GatewayController {
   private readonly postServiceClient: ApolloClient<unknown>;
@@ -38,7 +45,7 @@ export class GatewayController {
     private authService: AuthService,
     private userService: UserService,
     private commentService: CommentService,
-    private likesService: LikesService
+    private likesService: LikesService,
   ) {
     this.postServiceClient = new ApolloClient({
       uri: process.env.GRAPHQL_URL,
@@ -48,12 +55,20 @@ export class GatewayController {
 
   @Post("signup")
   @HttpCode(HttpStatus.CREATED)
+  @ApiCreatedResponse({
+    description: "User Registered successfully",
+  })
+  @ApiForbiddenResponse({ description: "Username or email already exist" })
   async signup(@Body() dto: RegistrationDto) {
     return this.authService.signup(dto);
   }
 
   @Post("login")
   @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ description: "User access successful" })
+  @ApiForbiddenResponse({
+    description: "User not registered or Invalid password",
+  })
   async login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }
@@ -61,12 +76,18 @@ export class GatewayController {
   @UseGuards(AtGuard)
   @Post("logout")
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
+  @ApiOkResponse({ description: "Successfully logged out" })
+  @ApiBadRequestResponse({ description: "User already Logged out" })
   async logout(@User() user: any) {
     return this.authService.logout(user);
   }
 
   @UseGuards(RtGuard)
   @Post("/refresh-token")
+  @ApiBearerAuth()
+  @ApiOkResponse({description: "Refreshed Tokens successfully"})
+  @ApiForbiddenResponse({description: "No User Found or Access denied"})
   refresh(@User() user: any) {
     return this.authService.refreshToken(user);
   }
@@ -74,6 +95,8 @@ export class GatewayController {
   @UseGuards(AtGuard)
   @Post("user/follow")
   @HttpCode(HttpStatus.CREATED)
+  @ApiCreatedResponse({description: "User Followed successfully"})
+  @ApiBadRequestResponse({description: "User can't follow self account"})
   follow(@User() user: any, @Body() dto: FollowUserDto) {
     return this.userService.follow(user, dto);
   }
@@ -81,6 +104,7 @@ export class GatewayController {
   @UseGuards(AtGuard)
   @Post("user/unfollow")
   @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({description: "Unfollowed successfully"})
   unfollow(@User() user: any, @Body() dto: FollowUserDto) {
     return this.userService.unfollow(user, dto);
   }

@@ -110,6 +110,7 @@ export class UserService {
       );
 
       return {
+        message: "User Followed successfully",
         followingResponse,
       };
     } catch (error) {
@@ -133,6 +134,7 @@ export class UserService {
       );
 
       return {
+        message: "Unfollowed successfully",
         unfollowResponse,
       };
     } catch (error) {

@@ -12,15 +12,15 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle("Instakilo")
-    .setDescription("The Instakilo API description")
+    .setDescription("The Instakilo API")
     .setVersion("0.5")
     .setLicense("License", "https://mit-license.org/")
-    .addTag('Api')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
-  
+
   await app.listen(process.env.PORT);
 }
 

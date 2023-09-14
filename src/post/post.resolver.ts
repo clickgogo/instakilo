@@ -1,10 +1,8 @@
 import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
 import { PostService } from "./post.service";
-import { PostDto } from "../api_gateway/dto/index";
+import { Post } from "./types/index";
 import { CreatePostInput } from "./inputs/create-post.input";
 import { ModifyPostInput } from "./inputs/modify-post.input";
-import { AtGuard, GraphqlAtGuard, User } from "src/common";
-import { UnauthorizedException, UseGuards } from "@nestjs/common";
 
 @Resolver()
 export class PostResolver {
@@ -15,17 +13,17 @@ export class PostResolver {
     return "Hello developer";
   }
 
-  @Query(() => [PostDto])
+  @Query(() => [Post])
   async getAllPosts() {
     return await this.postService.getAllPosts();
   }
 
-  @Query(() => [PostDto])
+  @Query(() => [Post])
   async getAllPostsByUser(@Args("username") username: string) {
     return await this.postService.getAllPostsByUser(username);
   }
 
-  @Mutation(() => PostDto)
+  @Mutation(() => Post)
   // @UseGuards(AtGuard)
   async createPost(
     @Args("input") input: CreatePostInput /*@User() user: any*/,
@@ -36,11 +34,8 @@ export class PostResolver {
     return this.postService.createPost(input);
   }
 
-  @Mutation(() => PostDto)
+  @Mutation(() => Post)
   async modifyPostDescription(@Args("input") input: ModifyPostInput) {
     return this.postService.modifyPost(input);
   }
-}
-function isUserLoggedSameAsInput(user: any, input: any) {
-  return user.username === input;
 }

@@ -21,6 +21,7 @@ import { LikesModule } from "./likes/likes.module";
     ApiGatewayModule,
     UserPrismaModule,
     LikesModule,
+    PostModule,
   ],
 })
 export class AppModule {}
