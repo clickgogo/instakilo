@@ -1,13 +1,13 @@
 version: "3.8"
 services:
   instakilo-user-db:
-    image: postgres:13
+    image: postgres:13-alpine
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: postgres,
-      POSTGRES_PASSWORD: thisIsMyBankPassword4Real,
-      POSTGRES_DB: instakiloUserDB
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_URI}
     networks:
       - instakiloNetwork
   instakilo-post-db:
@@ -16,8 +16,8 @@ services:
     ports:
       - 27017:27017
     environment:
-      MONGO_USERNAME: root
-      MONGO_PASSWORD: safestPasswordInTheWorld
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
     networks:
       - instakiloNetwork
   instakilo-comments-db:
@@ -26,8 +26,8 @@ services:
     ports:
       - "5984:5984"
     environment:
-      - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=ifThisPasswordIsHackedTheWorldIsUnsafe
+      COUCHDB_USER: ${COUCHDB_USER}
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD}
     networks:
       - instakiloNetwork
   instakilo-likes-db:
@@ -39,6 +39,6 @@ services:
     networks:
       - instakiloNetwork
     environment:
-      - RETHINKDB_PASSWORD=thisIsNotAPassword
+      RETHINKDB_PASSWORD: ${RETHINKDB_PASSWORD}
 networks:
   instakiloNetwork:
