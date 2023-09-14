@@ -18,7 +18,7 @@ import {
   RegistrationDto,
   LoginDto,
   FollowUserDto,
-  ProfileDto,
+  ProfileUpdateDto,
   CreatePostDto,
   LikeCommentDto,
   LikePostDto,
@@ -88,7 +88,7 @@ export class GatewayController {
 
   @UseGuards(AtGuard)
   @Put("user/profile")
-  updateProfile(@User() user: any, @Body() dto: ProfileDto) {
+  updateProfile(@User() user: any, @Body() dto: ProfileUpdateDto) {
     return this.userService.updateProfile(user, dto);
   }
 
@@ -96,7 +96,7 @@ export class GatewayController {
   @ApiParam({
     name: "Username",
     type: String,
-    required: true
+    required: true,
   })
   getProfile(@User() user: any, @Param("username") username: string) {
     return this.userService.getProfile(username);
@@ -106,7 +106,7 @@ export class GatewayController {
   @ApiParam({
     name: "Username",
     type: String,
-    required: true
+    required: true,
   })
   async getPostsByUser(@Param("username") username: string) {
     try {
@@ -185,7 +185,7 @@ export class GatewayController {
   @ApiParam({
     name: "Post Id",
     type: String,
-    required: true
+    required: true,
   })
   async getAllCommentsByPostId(@Param("postId") postId: string) {
     return this.commentService.getAllCommentsByPostId(postId);
@@ -195,7 +195,7 @@ export class GatewayController {
   @ApiParam({
     name: "User Id",
     type: String,
-    required: true
+    required: true,
   })
   async getAllCommentsByUserId(@Param("userId") userId: string) {
     return this.commentService.getAllCommentsByUserId(userId);
@@ -212,7 +212,7 @@ export class GatewayController {
   }
 
   @Post("likes/unlike-post")
-  async unlikePost(@Body() unlikeInput: any) {
+  async unlikePost(@User() user: any, @Body() unlikeInput: any) {
     return this.likesService.unlikePost(unlikeInput);
   }
 
@@ -222,7 +222,7 @@ export class GatewayController {
   }
 
   @Post("likes/unlike-comment")
-  async unlikeComment(@Body() unlikeInput: any) {
+  async unlikeComment(@User() user: any, @Body() unlikeInput: any) {
     return this.likesService.unlikeComment(unlikeInput);
   }
 }

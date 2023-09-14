@@ -7,7 +7,7 @@ import {
 import {
   FollowUserDto,
   LoggedUserDto,
-  ProfileDto,
+  ProfileUpdateDto,
 } from "../api_gateway/dto/user-dto/index";
 import { IUser, IUserAndFollowing, followOrUnfollow } from "./types/index";
 import { UserPrismaService } from "./user-prisma/user-prisma.service";
@@ -140,7 +140,7 @@ export class UserService {
     }
   }
 
-  async updateProfile(user: LoggedUserDto, dto: ProfileDto) {
+  async updateProfile(user: LoggedUserDto, dto: ProfileUpdateDto) {
     return await this.userPrisma.profile.upsert({
       where: {
         username: user.username,

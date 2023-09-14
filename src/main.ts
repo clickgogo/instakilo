@@ -16,6 +16,7 @@ async function bootstrap() {
     .setDescription("The Instakilo API description")
     .setVersion("0.5")
     .setLicense("License", "https://mit-license.org/")
+    .addTag('Api')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
