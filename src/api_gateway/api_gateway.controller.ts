@@ -38,11 +38,10 @@ export class GatewayController {
     private authService: AuthService,
     private userService: UserService,
     private commentService: CommentService,
-    private likesService: LikesService,
-    config: ConfigService,
+    private likesService: LikesService
   ) {
     this.postServiceClient = new ApolloClient({
-      uri: config.get("GRAPHQL_URL") || "http://localhost:3300/graphql",
+      uri: process.env.GRAPHQL_URL,
       cache: new InMemoryCache(),
     });
   }
@@ -129,7 +128,7 @@ export class GatewayController {
         },*/,
       });
 
-      return data.getAllPostsByUser;
+      return data;
     } catch (error) {
       return { error };
     }

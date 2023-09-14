@@ -13,7 +13,7 @@ export class CommentService {
   private readonly couchdb: Nano.ServerScope;
   constructor() {
     this.couchdb = Nano(
-      "http://admin:ifThisPasswordIsHackedTheWorldIsUnsafe@localhost:5984",
+      process.env.COUCHDB_URL,
     );
   }
 

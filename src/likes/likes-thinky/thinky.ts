@@ -1,9 +1,10 @@
 import * as thinky from "thinky";
 
 const dbConfig = {
-  host: "localhost",
-  port: 28015,
-  db: "instakilo_likes_db",
+  
+  host: process.env.RETHINK_HOST,
+  port: process.env.RETHINK_PORT,
+  db: process.env.RETHINK_DB,
 };
 
 const thinkyInstance = thinky(dbConfig);
