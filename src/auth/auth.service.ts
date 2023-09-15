@@ -4,11 +4,10 @@ import {
   Injectable,
   BadRequestException,
 } from "@nestjs/common";
-import { UserPrismaService } from "src/user/user-prisma/user-prisma.service";
+import { UserPrismaService } from "../modules/user/user-prisma/user-prisma.service";
 import * as argon from "argon2";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { JwtService } from "@nestjs/jwt";
-import { ConfigService } from "@nestjs/config";
 import { tokens } from "./types";
 import {
   RegistrationDto,
@@ -20,7 +19,6 @@ export class AuthService {
   constructor(
     private userPrisma: UserPrismaService,
     private jwt: JwtService,
-    private config: ConfigService,
   ) {}
 
   async signup(dto: RegistrationDto) {
@@ -124,7 +122,7 @@ export class AuthService {
           username,
         },
         {
-          secret: this.config.get("JWT_SECRET"),
+          secret: process.env.JWT_SECRET,
           //TODO: change expiration date to 60*15 for production
           expiresIn: 60 * 15,
         },
@@ -136,7 +134,7 @@ export class AuthService {
           username,
         },
         {
-          secret: this.config.get("REFRESH_JWT_SECRET"),
+          secret: process.env.REFRESH_JWT_SECRET,
           //one week expiration
           expiresIn: 60 * 60 * 24 * 7,
         },

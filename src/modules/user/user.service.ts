@@ -8,7 +8,7 @@ import {
   FollowUserDto,
   LoggedUserDto,
   ProfileUpdateDto,
-} from "../api_gateway/dto/user-dto/index";
+} from "../../api_gateway/dto/user-dto/index";
 import { IUser, IUserAndFollowing, followOrUnfollow } from "./types/index";
 import { UserPrismaService } from "./user-prisma/user-prisma.service";
 

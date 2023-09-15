@@ -24,9 +24,7 @@ import {
 } from "./dto/index";
 import { User, AtGuard, RtGuard } from "src/common/index";
 import { AuthService } from "src/auth/auth.service";
-import { UserService } from "src/user/user.service";
-import { CommentService } from "src/comment/comment.service";
-import { LikesService } from "src/likes/likes.service";
+import { UserService, CommentService, LikesService } from "src/modules/index";
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -86,8 +84,8 @@ export class GatewayController {
   @UseGuards(RtGuard)
   @Post("/refresh-token")
   @ApiBearerAuth()
-  @ApiOkResponse({description: "Refreshed Tokens successfully"})
-  @ApiForbiddenResponse({description: "No User Found or Access denied"})
+  @ApiOkResponse({ description: "Refreshed Tokens successfully" })
+  @ApiForbiddenResponse({ description: "No User Found or Access denied" })
   refresh(@User() user: any) {
     return this.authService.refreshToken(user);
   }
@@ -95,8 +93,8 @@ export class GatewayController {
   @UseGuards(AtGuard)
   @Post("user/follow")
   @HttpCode(HttpStatus.CREATED)
-  @ApiCreatedResponse({description: "User Followed successfully"})
-  @ApiBadRequestResponse({description: "User can't follow self account"})
+  @ApiCreatedResponse({ description: "User Followed successfully" })
+  @ApiBadRequestResponse({ description: "User can't follow self account" })
   follow(@User() user: any, @Body() dto: FollowUserDto) {
     return this.userService.follow(user, dto);
   }
@@ -104,7 +102,7 @@ export class GatewayController {
   @UseGuards(AtGuard)
   @Post("user/unfollow")
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({description: "Unfollowed successfully"})
+  @ApiOkResponse({ description: "Unfollowed successfully" })
   unfollow(@User() user: any, @Body() dto: FollowUserDto) {
     return this.userService.unfollow(user, dto);
   }

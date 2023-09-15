@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import PostLikes from "./models/post-likes.model";
-import { LikeCommentDto, LikePostDto } from "../api_gateway/dto/like-dto";
+import { LikeCommentDto, LikePostDto } from "../../api_gateway/dto/like-dto";
 import CommentLikes from "./models/comment-likes.model";
 
 @Injectable()

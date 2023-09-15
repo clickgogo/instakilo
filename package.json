@@ -6,7 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "prisma:dev:deploy": "cd src && cd user && prisma generate && npx prisma migrate deploy",
+    "prisma:dev:deploy": "cd src && cd modules && cd user && npx prisma generate && npx prisma migrate deploy",
     "userDb:dev:rm": "docker compose rm instakilo-user-db -s -f -v",
     "userDb:dev:up": "docker compose up instakilo-user-db -d",
     "userDb:dev:restart": "npm run userDb:dev:rm && npm run userDb:dev:up && prisma:dev:deploy",
