@@ -5,7 +5,6 @@ import {
   BadRequestException,
 } from "@nestjs/common";
 import { UserPrismaService } from "../../modules/user/user-prisma/user-prisma.service";
-import * as argon from "argon2";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { JwtService } from "@nestjs/jwt";
 import { tokens } from "./types";
@@ -195,10 +194,16 @@ export class AuthService {
   }
 
   private hashData(data: string): Promise<string> {
-    return argon.hash(data);
+    return Bun.password.hash(data, {
+      algorithm: "argon2d",
+      memoryCost: 4,
+      timeCost: 3,
+    });
   }
+  
 
   private verifyHash(password1: string, password2: string): Promise<boolean> {
-    return argon.verify(password1, password2);
+    return Bun.password.verify(password1, password2, "argon2d");
+
   }
 }
