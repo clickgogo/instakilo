@@ -4,15 +4,12 @@ import {
   Injectable,
   BadRequestException,
 } from "@nestjs/common";
-import { UserPrismaService } from "../modules/user/user-prisma/user-prisma.service";
+import { UserPrismaService } from "../../modules/user/user-prisma/user-prisma.service";
 import * as argon from "argon2";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { JwtService } from "@nestjs/jwt";
 import { tokens } from "./types";
-import {
-  RegistrationDto,
-  LoginDto,
-} from "../api_gateway/dto/index";
+import { RegistrationDto, LoginDto } from "../../api_gateway/dto/index";
 
 @Injectable()
 export class AuthService {
@@ -34,8 +31,8 @@ export class AuthService {
               photo_url: "",
               bio: "",
               followerCount: 0,
-              followsCount: 0
-            }
+              followsCount: 0,
+            },
           },
         },
       });
