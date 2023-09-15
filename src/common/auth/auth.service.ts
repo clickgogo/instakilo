@@ -4,14 +4,11 @@ import {
   Injectable,
   BadRequestException,
 } from "@nestjs/common";
-import { UserPrismaService } from "../modules/user/user-prisma/user-prisma.service";
+import { UserPrismaService } from "../../modules/user/user-prisma/user-prisma.service";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { JwtService } from "@nestjs/jwt";
 import { tokens } from "./types";
-import {
-  RegistrationDto,
-  LoginDto,
-} from "../api_gateway/dto/index";
+import { RegistrationDto, LoginDto } from "../../api_gateway/dto/index";
 
 @Injectable()
 export class AuthService {
@@ -33,8 +30,8 @@ export class AuthService {
               photo_url: "",
               bio: "",
               followerCount: 0,
-              followsCount: 0
-            }
+              followsCount: 0,
+            },
           },
         },
       });
@@ -199,8 +196,8 @@ export class AuthService {
   private hashData(data: string): Promise<string> {
     return Bun.password.hash(data, {
       algorithm: "argon2d",
-      memoryCost: 4, 
-      timeCost: 3, 
+      memoryCost: 4,
+      timeCost: 3,
     });
   }
 
